@@ -270,7 +270,7 @@ public class BidanFormUtils {
             org.smartregister.cloudant.models.Client client = new org.smartregister.cloudant
                     .models.Client(
                     c);
-            if (EditClientFormNameList().contains(formName)) {
+            if (editClientFormNameList().contains(formName)) {
                 try {
                     updateClientDocument(client);
                 } catch (ConflictException e1) {
@@ -1023,20 +1023,20 @@ public class BidanFormUtils {
         }
     }
 
-    private String getValueForPath(String[] path, JSONObject jsonObject) throws Exception {
+    private String getValueForPath(String[] path, JSONObject jsonObject) throws JSONException {
         JSONObject object = jsonObject;
         String value = null;
         int i = 0;
 
         while (i < path.length - 1) {
-            if (object.has(path[i])) {
-                Object o = object.get(path[i]);
-                if (o instanceof JSONObject) {
+            if (object.has(path[i]) && object.get(path[i]) instanceof JSONObject ) {
+//                Object o = object.get(path[i]);
+//                if (o instanceof JSONObject) {
                     object = object.getJSONObject(path[i]);
-                } else if (o instanceof JSONArray) {
+                } else if (object.get(path[i]) instanceof JSONArray) {
                     object = object.getJSONArray(path[i]).getJSONObject(0);
                 }
-            }
+//            }
 
             i++;
         }
@@ -1108,8 +1108,8 @@ public class BidanFormUtils {
         mCloudantDataHandler.createClientDocument(client);
     }
 
-    private List<String> EditClientFormNameList() {
-        android.util.Log.e(TAG, "EditClientFormNameList: ");
+    private List<String> editClientFormNameList() {
+        android.util.Log.e(TAG, "editClientFormNameList: ");
         List<String> formNames = new ArrayList<>();
         formNames.add(KARTU_IBU_EDIT);
         formNames.add(KOHORT_BAYI_EDIT);
