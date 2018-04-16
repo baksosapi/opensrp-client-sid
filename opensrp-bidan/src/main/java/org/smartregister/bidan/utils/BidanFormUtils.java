@@ -544,8 +544,10 @@ public class BidanFormUtils {
 
             serializer.endTag("", node.getNodeName());
 
+        } catch (JSONException|IOException e) {
+            throw new IllegalArgumentException(e);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -678,8 +680,7 @@ public class BidanFormUtils {
         return subFormNames;
     }
 
-    private JSONObject retriveSubformDefinitionForBindPath(JSONArray subForms, String fieldName)
-            throws Exception {
+    private JSONObject retriveSubformDefinitionForBindPath(JSONArray subForms, String fieldName) throws JSONException {
         for (int i = 0; i < subForms.length(); i++) {
             JSONObject subForm = subForms.getJSONObject(i);
             String subFormNameStr = subForm.getString("default_bind_path");
@@ -694,8 +695,7 @@ public class BidanFormUtils {
         return null;
     }
 
-    private void writeXMLAttributes(Element node, XmlSerializer serializer, String id, String
-            relationalId) {
+    private void writeXMLAttributes(Element node, XmlSerializer serializer, String id, String relationalId) {
         try {
             // get a map containing the attributes of this node
             NamedNodeMap attributes = node.getAttributes();
@@ -718,8 +718,8 @@ public class BidanFormUtils {
                 serializer.attribute("", attrName, attrValue);
             }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
